@@ -58,8 +58,8 @@ def write_excel_file(file_name, sheet_name, data):
     # write to dest file. But first remove existing file
     if os.path.exists(file_name):
         path = os.path.abspath(file_name)
-        book = load_workbook(path)
-        writer.book = book
+        # book = load_workbook(path)
+        # writer.book = book
 
     # save to file
     data.to_excel(writer, sheet_name=sheet_name, startrow=0, index=False)
