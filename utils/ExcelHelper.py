@@ -3,6 +3,7 @@ import os
 import xlwings as xw
 import pandas as pd
 import pythoncom
+from openpyxl import load_workbook
 
 pd.options.mode.chained_assignment = None
 
@@ -53,19 +54,17 @@ def read_excel_file(file_name, sheet_name):
 
 
 def write_excel_file(file_name, sheet_name, data):
+    writer = pd.ExcelWriter(file_name)
     # write to dest file. But first remove existing file
     if os.path.exists(file_name):
-        os.remove(file_name)
+        path = os.path.abspath(file_name)
+        book = load_workbook(path)
+        writer.book = book
 
     # save to file
-    writer = pd.ExcelWriter(file_name)
     data.to_excel(writer, sheet_name=sheet_name, startrow=0, index=False)
     writer.close()
 
-
-# data, length_frame = read_excel_file(PATH, SHEET)
-#
-# print(data)
 
 def write_json_file(file_name, data):
     # write to dest file. But first remove existing file
