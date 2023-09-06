@@ -54,11 +54,17 @@ def read_excel_file(file_name, sheet_name):
 
 
 def write_excel_file(file_name, sheet_name, data):
-    writer = pd.ExcelWriter(file_name)
+    writer = pd.ExcelWriter(file_name, engine='openpyxl')
     # write to dest file. But first remove existing file
     if os.path.exists(file_name):
         path = os.path.abspath(file_name)
-        # book = load_workbook(path)
+
+        # pythoncom.CoInitialize()
+        # xw.App(visible=False)
+        # book = xw.Book(r'%s' % path)
+        # excelSheet = book.sheets(sheet_name)
+
+        # print(book)
         # writer.book = book
 
     # save to file
