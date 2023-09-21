@@ -14,7 +14,7 @@ class Crawler2:
     def __init__(self, page):
         self.page = page
 
-        self.URL = 'https://www.domain.com.au/real-estate-agents/melbourne-vic-3000/?page=' + str(page)
+        self.URL = 'https://www.domain.com.au/real-estate-agencies/kelmscott-dc-6997/?page=' + str(page)
         self.headers = {
             'User-agent': user_agent,
             # 'Cookie': cookie,
@@ -26,11 +26,11 @@ class Crawler2:
         r = requests.get(url=self.URL, headers=self.headers)
         # If this line causes an error, run 'pip install html5lib' or install html5lib
         soup = BeautifulSoup(r.content, 'html5lib')
-
         data = json.loads(soup.find('script', type='application/json').contents[0])
 
         state = data['props']['pageProps']['__APOLLO_STATE__']
         data = []
+        print(state)
 
         for key in state:
             if key.__contains__('ContactSearchContact:'):
@@ -38,7 +38,6 @@ class Crawler2:
 
         dataFrame = self.getDataFrame(data)
         write_excel_file(OUTPUT, 'page ' + self.page, dataFrame)
-        print(data)
 
     @staticmethod
     def getDataFrame(data):
