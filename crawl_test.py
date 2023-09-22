@@ -4,6 +4,8 @@ from bs4 import BeautifulSoup
 import time
 import yaml
 
+from utils.ExcelHelper import write_json_file
+
 
 def extract_profile_data(profile_soup):
     table = profile_soup.find('table')
@@ -51,3 +53,4 @@ filename = get_csv_filename_from_config()
 
 print(urls)
 
+write_json_file('sample input/urls.txt', str(urls))
