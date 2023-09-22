@@ -1,7 +1,6 @@
 import csv
 import requests
-from bs4 import BeautifulSoup
-import time
+import json
 import yaml
 
 from utils.ExcelHelper import write_json_file
@@ -53,4 +52,8 @@ filename = get_csv_filename_from_config()
 
 print(urls)
 
-write_json_file('sample input/urls.txt', str(urls))
+urls_dict = {}
+for idx in range(len(urls)):
+    urls_dict[idx] = urls[idx]
+
+write_json_file('sample input/urls.txt', json.dumps(urls_dict))

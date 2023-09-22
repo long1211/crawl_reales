@@ -1,44 +1,20 @@
 import json
 
-import pandas as pd
-import requests
-from bs4 import BeautifulSoup
-
-from beautiful_soup_2 import Crawler2
+import ast
+from crawler import RealEstate
 from utils.ExcelHelper import write_excel_file
 
-url = 'https://www.domain.com.au/real-estate-agents/darlinghurst-nsw-2010/'
-
+# url = 'https://www.domain.com.au/real-estate-agents/darlinghurst-nsw-2010/'
 OUTPUT = r'output//'
+INPUT = r'sample input//urls.txt'
 
-user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36'
-headers = {"User-agent": user_agent}
+with open(INPUT, 'r', encoding='utf8') as f:
+    urls_dict = json.load(f)
 
-r = requests.get(url=url, headers=headers)
-soup = BeautifulSoup(r.content, 'html5lib')
-data = json.loads(soup.find('script', type='application/json').contents[0])
+f.close()
 
-post_data = data['query']['searchParam']
-OUTPUT = OUTPUT + post_data + '.xlsx'
-
-state = data['props']['pageProps']['__APOLLO_STATE__']
-root_query = list(state['ROOT_QUERY'].values())
-
-totalPages = root_query[1]['totalPages']
-
-data = {
-    "Name": [],
-    "Job Title": [],
-    "Telephone": [],
-    "Mobile": [],
-    "Profile Photo": [],
-}
-
-df = pd.DataFrame(data)
-
-for page in range(totalPages):
-    page = page + 1
-    crawler = Crawler2(url, page)
-    df = df._append(crawler.dataFrame)
-
-write_excel_file(OUTPUT, post_data, df)
+for url in urls_dict.values():
+    print(url)
+    # realEstate = RealEstate(url)
+    # OUTPUT = OUTPUT + realEstate.post_code + '.xlsx'
+    # write_excel_file(OUTPUT, realEstate.post_code, realEstate.dataFrame)
