@@ -18,7 +18,14 @@ class RealEstate:
         soup = BeautifulSoup(r.content, 'html5lib')
         data = json.loads(soup.find('script', type='application/json').contents[0])
 
-        post_code = data['query']['searchParam']
+        print(self.url)
+
+        if 'query' in data and 'searchParam' in data['query']:
+            post_code = data['query']['searchParam']
+            # Use post_code as needed
+        else:
+            # Handle the case when the key is not present
+            return None, None
 
         state = data['props']['pageProps']['__APOLLO_STATE__']
         root_query = list(state['ROOT_QUERY'].values())
