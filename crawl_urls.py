@@ -32,11 +32,11 @@ def get_urls_from_config(csv_data):
         for row in csv_data:
             formatted_suburb = row['Suburb'].replace(' ', '-').lower()
             if config['type'] == 'postcode' and row['Postcode'] == str(config['value']):
-                urls.append(f"https://www.domain.com.au/real-estate-agencies/{formatted_suburb}-{row['Postcode']}")
+                urls.append(f"https://www.domain.com.au/real-estate-agents/{formatted_suburb}-{row['Postcode']}")
             elif config['type'] == 'state' and row['State'] == config['value']:
-                urls.append(f"https://www.domain.com.au/real-estate-agencies/{formatted_suburb}-{row['Postcode']}")
+                urls.append(f"https://www.domain.com.au/real-estate-agents/{formatted_suburb}-{row['Postcode']}")
             elif config['type'] == 'country':
-                urls.append(f"https://www.domain.com.au/real-estate-agencies/{formatted_suburb}-{row['Postcode']}")
+                urls.append(f"https://www.domain.com.au/real-estate-agents/{formatted_suburb}-{row['Postcode']}")
     return urls
 
 
