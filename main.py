@@ -25,7 +25,8 @@ for url in urls_dict.values():
         OUTPUT = OUTPUT + realEstate.post_code + '.xlsx'
         write_excel_file(OUTPUT, realEstate.post_code, realEstate.dataFrame)
 
-        # print(url)
+    elif size + 10 <= count:
+        break
 
     count = count + 1
 
