@@ -30,13 +30,17 @@ def get_urls_from_config(csv_data):
     with open("sample input/config.yaml", 'r') as stream:
         config = yaml.safe_load(stream)
         for row in csv_data:
+            print(row)
             formatted_suburb = row['Suburb'].replace(' ', '-').lower()
             if config['type'] == 'postcode' and row['Postcode'] == str(config['value']):
-                urls.append(f"https://www.domain.com.au/real-estate-agents/{formatted_suburb}-{row['Postcode']}")
+                urls.append(
+                    f"https://www.domain.com.au/real-estate-agents/{formatted_suburb}-{row['State']}-{row['Postcode']}")
             elif config['type'] == 'state' and row['State'] == config['value']:
-                urls.append(f"https://www.domain.com.au/real-estate-agents/{formatted_suburb}-{row['Postcode']}")
+                urls.append(
+                    f"https://www.domain.com.au/real-estate-agents/{formatted_suburb}-{row['State']}-{row['Postcode']}")
             elif config['type'] == 'country':
-                urls.append(f"https://www.domain.com.au/real-estate-agents/{formatted_suburb}-{row['Postcode']}")
+                urls.append(
+                    f"https://www.domain.com.au/real-estate-agents/{formatted_suburb}-{row['State']}-{row['Postcode']}")
     return urls
 
 
@@ -50,7 +54,7 @@ csv_data = get_csv_data()
 urls = get_urls_from_config(csv_data)
 filename = get_csv_filename_from_config()
 
-print(urls)
+# print(urls)
 
 urls_dict = {}
 for idx in range(len(urls)):

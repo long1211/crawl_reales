@@ -18,6 +18,8 @@ class RealEstate:
         soup = BeautifulSoup(r.content, 'html5lib')
         data = json.loads(soup.find('script', type='application/json').contents[0])
 
+        print(self.url)
+
         if 'query' in data and 'searchParam' in data['query']:
             post_code = data['query']['searchParam']
             # Use post_code as needed
