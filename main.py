@@ -13,8 +13,21 @@ with open(INPUT, 'r', encoding='utf8') as f:
 
 f.close()
 
+count = 0
+size = 0
+
 for url in urls_dict.values():
-    print(url)
+    if size + 10 > count >= size:
+        realEstate = RealEstate(url)
+        if realEstate.post_code is None:
+            continue
+
+        OUTPUT = OUTPUT + realEstate.post_code + '.xlsx'
+        write_excel_file(OUTPUT, realEstate.post_code, realEstate.dataFrame)
+
+        # print(url)
+
+    count = count + 1
 
 # url = 'https://www.domain.com.au/real-estate-agents/city-delivery-centre-6000'
 # realEstate = RealEstate(url)
