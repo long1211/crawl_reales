@@ -51,36 +51,3 @@ filename = get_csv_filename_from_config()
 
 print(urls)
 
-headers = {
-    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'}
-
-processed_profiles = set()  # To store processed profiles
-
-# with open(filename, 'w', newline='') as csvfile:
-#     fieldnames = ['Name', 'Company', 'Address', 'Phone', 'Website']
-#     writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-#     writer.writeheader()
-#
-#     for url in urls:
-#         response = requests.get(url, headers=headers)
-#         soup = BeautifulSoup(response.text, 'html.parser')
-#
-#         profile_urls = []
-#         for member in soup.find_all('div', {'class': 'fap-member'}):
-#             profile_link = member.find('a', {'href': True}, string='View profile')
-#             if profile_link and profile_link['href'] not in processed_profiles:
-#                 profile_urls.append(profile_link['href'])
-#                 processed_profiles.add(profile_link['href'])
-#
-#         for profile_url in profile_urls:
-#             try:
-#                 response = requests.get(profile_url, headers=headers)
-#                 profile_soup = BeautifulSoup(response.text, 'html.parser')
-#
-#                 profile_data = extract_profile_data(profile_soup)
-#                 filtered_profile_data = {key: profile_data.get(key, '') for key in fieldnames}
-#
-#                 writer.writerow(filtered_profile_data)
-#                 time.sleep(1)
-#             except Exception as e:
-#                 print(f"Error fetching {profile_url}: {e}")
