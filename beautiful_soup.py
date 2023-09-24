@@ -39,21 +39,21 @@ class Crawler:
         jobTitle = []
         telephone = []
         mobile = []
-        profilePhoto = []
+        # profilePhoto = []
 
         for agent in data:
             name.append(agent['name'])
             jobTitle.append(agent['jobTitle'])
             telephone.append(agent['telephone'])
             mobile.append(agent['mobile'])
-            profilePhoto.append(agent['profilePhoto'])
+            # profilePhoto.append(agent['profilePhoto'])
 
         data = {
             "Name": name,
             "Job Title": jobTitle,
             "Telephone": telephone,
             "Mobile": mobile,
-            "Profile Photo": profilePhoto,
+            # "Profile Photo": profilePhoto,
         }
 
         df = pd.DataFrame(data)
