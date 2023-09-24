@@ -3,6 +3,7 @@ import os
 import xlwings as xw
 import pandas as pd
 import pythoncom
+from csv import DictWriter
 from openpyxl import load_workbook
 
 pd.options.mode.chained_assignment = None
@@ -54,19 +55,25 @@ def read_excel_file(file_name, sheet_name):
 
 
 def write_excel_file(file_name, sheet_name, data):
-    writer = pd.ExcelWriter(file_name, engine='openpyxl')
-    # write to dest file. But first remove existing file
+    # write to dest file. But addpend if existing file
     if os.path.exists(file_name):
-        path = os.path.abspath(file_name)
+        pythoncom.CoInitialize()
+        xw.App(visible=False)
+        excel_book = xw.Book(file_name)
+        excel_sheet = excel_book.sheets(sheet_name)
+        pd_header = excel_sheet.range('A1').expand('right').value
+        num_row = len(excel_sheet.range('A1').expand('down').value)
+        num_column = len(pd_header)
 
-        # pythoncom.CoInitialize()
-        # xw.App(visible=False)
-        # book = xw.Book(r'%s' % path)
-        # excelSheet = book.sheets(sheet_name)
+        last_column_name = chr(64 + num_column)
+        range_table = 'A2:' + last_column_name + str(num_row)
+        table_values = excel_sheet.range(range_table).value
+        df = pd.DataFrame(table_values, columns=pd_header)
+        data = data._append(df, ignore_index=True)
 
-        # print(book)
-        # writer.book = book
+        excel_book.close()
 
+    writer = pd.ExcelWriter(file_name, engine='openpyxl')
     # save to file
     data.to_excel(writer, sheet_name=sheet_name, startrow=0, index=False)
     writer.close()
@@ -81,3 +88,20 @@ def write_json_file(file_name, data):
     f = open(file_name, "w")
     f.write(data)
     f.close()
+
+
+def write_csv_file(file_name, data):
+    # list of column names
+    field_names = ['Name', 'Job Title', 'Telephone', 'Mobile', 'Profile Photo']
+    if os.path.exists(file_name):
+        with open(file_name, 'a') as f_object:
+            # Pass the file object and a list
+            # of column names to DictWriter()
+            # You will get a object of DictWriter
+            dictwriter_object = DictWriter(f_object, fieldnames=field_names)
+
+            # Pass the dictionary as an argument to the Writerow()
+            dictwriter_object.writerow(data)
+
+            # Close the file object
+            f_object.close()

@@ -37,7 +37,7 @@ class RealEstate:
             "Job Title": [],
             "Telephone": [],
             "Mobile": [],
-            "Profile Photo": [],
+            # "Profile Photo": [],
         }
 
         df = pd.DataFrame(data)

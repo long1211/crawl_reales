@@ -26,21 +26,16 @@ def get_csv_data():
 
 
 def get_urls_from_config(csv_data):
-    urls = []
-    with open("sample input/config.yaml", 'r') as stream:
-        config = yaml.safe_load(stream)
-        for row in csv_data:
-            print(row)
-            formatted_suburb = row['Suburb'].replace(' ', '-').lower()
-            if config['type'] == 'postcode' and row['Postcode'] == str(config['value']):
-                urls.append(
-                    f"https://www.domain.com.au/real-estate-agents/{formatted_suburb}-{row['State']}-{row['Postcode']}")
-            elif config['type'] == 'state' and row['State'] == config['value']:
-                urls.append(
-                    f"https://www.domain.com.au/real-estate-agents/{formatted_suburb}-{row['State']}-{row['Postcode']}")
-            elif config['type'] == 'country':
-                urls.append(
-                    f"https://www.domain.com.au/real-estate-agents/{formatted_suburb}-{row['State']}-{row['Postcode']}")
+    urls = {}
+    for row in csv_data:
+        formatted_suburb = row['Suburb'].replace(' ', '-').lower()
+        postcode = row['Postcode']
+        state = row['State'].lower()
+        url = f"https://www.domain.com.au/real-estate-agents/{formatted_suburb}-{state}-{postcode}"
+        if state in urls:
+            urls[state].append(url)
+        else:
+            urls[state] = []
     return urls
 
 
@@ -56,8 +51,8 @@ filename = get_csv_filename_from_config()
 
 # print(urls)
 
-urls_dict = {}
-for idx in range(len(urls)):
-    urls_dict[idx] = urls[idx]
+# urls_dict = {}
+# for idx in range(len(urls)):
+#     urls_dict[idx] = urls[idx]
 
-write_json_file('sample input/urls.txt', json.dumps(urls_dict))
+write_json_file('sample input/urls.txt', json.dumps(urls))
