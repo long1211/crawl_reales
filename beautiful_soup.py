@@ -20,7 +20,7 @@ class Crawler:
         self.dataFrame = self.crawl()
 
     def crawl(self):
-        print(self.URL)
+        # print(self.URL)
         r = requests.get(url=self.URL, headers=self.headers)
         soup = BeautifulSoup(r.content, 'html5lib')
 
