@@ -13,7 +13,7 @@ with open(INPUT, 'r', encoding='utf8') as f:
     urls_dict = json.load(f)
 f.close()
 
-sample_state = 'vic'
+sample_state = 'sa'
 crawled_urls = []
 
 for state, urls in urls_dict.items():
