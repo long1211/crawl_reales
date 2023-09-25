@@ -23,8 +23,21 @@ class Crawler:
         r = requests.get(url=self.URL, headers=self.headers)
         soup = BeautifulSoup(r.content, 'html5lib')
         data = json.loads(soup.find('script', type='application/json').contents[0])
+        if not data:
+            return self.getDataFrame([])
 
-        state = data['props']['pageProps']['__APOLLO_STATE__']
+        props = data['props']
+        if not props:
+            return self.getDataFrame([])
+
+        pageProps = props['pageProps']
+        if not pageProps:
+            return self.getDataFrame([])
+
+        state = pageProps['__APOLLO_STATE__']
+        if not state:
+            return self.getDataFrame([])
+
         data = []
 
         for key in state:
