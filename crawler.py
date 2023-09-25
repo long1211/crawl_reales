@@ -14,12 +14,18 @@ class RealEstate:
         self.post_code, self.dataFrame = self.get_data_frame()
 
     def get_data_frame(self):
+        print(self.url)
         r = requests.get(url=self.url, headers=headers)
         soup = BeautifulSoup(r.content, 'html5lib')
-        data = json.loads(soup.find('script', type='application/json').contents[0])
+        script = soup.find('script', type='application/json')
+        if not script:
+            return None, None
 
-        print(self.url)
+        contents = script.contents
+        if not contents:
+            return None, None
 
+        data = json.loads(contents[0])
         if 'query' in data and 'searchParam' in data['query']:
             post_code = data['query']['searchParam']
             # Use post_code as needed
