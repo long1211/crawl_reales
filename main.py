@@ -11,7 +11,7 @@ with open(INPUT, 'r', encoding='utf8') as f:
 
 f.close()
 
-sample_state = 'vic'
+sample_state = 'tas'
 
 for state, urls in urls_dict.items():
     if state != sample_state:
