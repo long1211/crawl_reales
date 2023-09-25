@@ -10,6 +10,7 @@ headers = {"User-agent": user_agent}
 
 class RealEstate:
     def __init__(self, url):
+        print(url)
         self.url = url
         self.post_code, self.dataFrame = self.get_data_frame()
 
@@ -25,14 +26,27 @@ class RealEstate:
             return None, None
 
         data = json.loads(contents[0])
+        if not data:
+            return None, None
+
         if 'query' in data and 'searchParam' in data['query']:
             post_code = data['query']['searchParam']
             # Use post_code as needed
         else:
-            # Handle the case when the key is not present
             return None, None
 
-        state = data['props']['pageProps']['__APOLLO_STATE__']
+        if 'props' not in data:
+            return None, None
+        props = data['props']
+
+        if 'pageProps' not in props:
+            return None, None
+        pageProps = props['pageProps']
+
+        if '__APOLLO_STATE__' not in pageProps:
+            return None, None
+        state = pageProps['__APOLLO_STATE__']
+
         root_query = list(state['ROOT_QUERY'].values())
 
         totalPages = root_query[1]['totalPages']
