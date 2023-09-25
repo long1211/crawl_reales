@@ -26,17 +26,17 @@ class Crawler:
         if not data:
             return self.getDataFrame([])
 
+        if 'props' not in data:
+            return self.getDataFrame([])
         props = data['props']
-        if not props:
-            return self.getDataFrame([])
 
+        if 'pageProps' not in props:
+            return self.getDataFrame([])
         pageProps = props['pageProps']
-        if not pageProps:
-            return self.getDataFrame([])
 
-        state = pageProps['__APOLLO_STATE__']
-        if not state:
+        if '__APOLLO_STATE__' not in pageProps:
             return self.getDataFrame([])
+        state = pageProps['__APOLLO_STATE__']
 
         data = []
 
