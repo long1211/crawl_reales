@@ -20,9 +20,20 @@ class Crawler:
         self.dataFrame = self.crawl()
 
     def crawl(self):
+        print(self.URL)
         r = requests.get(url=self.URL, headers=self.headers)
         soup = BeautifulSoup(r.content, 'html5lib')
-        data = json.loads(soup.find('script', type='application/json').contents[0])
+
+        script = soup.find('script', type='application/json')
+        if not script:
+            return self.getDataFrame([])
+
+        contents = script.contents
+        if not contents:
+            return self.getDataFrame([])
+
+        data = json.loads(contents[0])
+
         if not data:
             return self.getDataFrame([])
 
